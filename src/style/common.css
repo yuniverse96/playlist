@@ -1,0 +1,22 @@
+@font-face {
+    font-family: 'Eonggeongkwi';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_11@1.0/Unggungqui.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+
+#wrap {width: 100vw; height: 100vh; overflow-y: auto; background: url(../../public/images/background.png) no-repeat center center / cover; margin: 0 auto;}
+#wrap * {box-sizing: border-box;}
+/*플레이리스트*/
+#main{width: 100%; height: 100%; padding-left: 11.2vw; display: flex; align-items: center; flex-wrap: wrap;}
+#main .left {width: clamp(300px, 36vw, 550px);  }
+#main .left h2 {font-family: 'Eonggeongkwi', sans-serif; font-size: clamp(24px, 5vw, 80px);}
+#main .left .total_info {width: 100%; margin-top: clamp(25px, 4.5vh, 45px); margin-bottom: 10px; display: flex; gap: 45px; align-items: center; color: #202020;  font-family: "Jura", sans-serif;} 
+#main .left .total_info span {font-size: clamp(14px, 1.19vw, 18px);}
+#main .left .total_info p {font-size: clamp(16px, 1.59vw, 24px);}
+#main .left .list_box {width: 100%; height:46vh; overflow: hidden; padding: 25px; background-color: rgba(255, 255, 255, 0.4); }
+
+
+
+
