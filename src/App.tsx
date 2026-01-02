@@ -4,7 +4,7 @@ import List from './pages/List'
 
 function App() {
   return (
-    <BrowserRouter basename="/">
+    <BrowserRouter basename={import.meta.env.MODE === 'production' ? '/playlist' : '/'}>
       <div id="wrap">
         <Routes>
           <Route path="/" element={<Home />} />
