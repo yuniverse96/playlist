@@ -4,19 +4,46 @@
     font-weight: normal;
     font-display: swap;
 }
+@font-face {
+    font-family: 'IsYun';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
 
 
-#wrap {width: 100vw; height: 100vh; overflow-y: auto; background: url(../../public/images/background.png) no-repeat center center / cover; margin: 0 auto;}
+#wrap {width: 100vw; height: 100vh; overflow: hidden; background: url(../../public/images/background.png) no-repeat center center / cover; margin: 0 auto;}
 #wrap * {box-sizing: border-box;}
+
 /*플레이리스트*/
-#main{width: 100%; height: 100%; padding-left: 11.2vw; display: flex; align-items: center; flex-wrap: wrap;}
-#main .left {width: clamp(300px, 36vw, 550px);  }
-#main .left h2 {font-family: 'Eonggeongkwi', sans-serif; font-size: clamp(24px, 5vw, 80px);}
+#main{width: 100%; height: 100%; padding-left: 11.2vw; display: flex; gap: 100px; align-items: center; flex-wrap: wrap;}
+/* #main .left {width: clamp(300px, 36vw, 550px);  } */
+#main .left {width:auto; flex: 1 1 auto;  }
+#main .left h2 {display: inline-block; font-family: 'Eonggeongkwi', sans-serif; font-size: clamp(24px, 5vw, 80px); position: relative;}
+#main .left h2::after {content: ""; width: 120%; height: 50px; display: inline-block; background-color: rgba(169, 192, 255, 0.2); position: absolute; top: 70%; left: -17px; transform: rotate(8deg) translate(0,-50%);}
 #main .left .total_info {width: 100%; margin-top: clamp(25px, 4.5vh, 45px); margin-bottom: 10px; display: flex; gap: 45px; align-items: center; color: #202020;  font-family: "Jura", sans-serif;} 
 #main .left .total_info span {font-size: clamp(14px, 1.19vw, 18px);}
 #main .left .total_info p {font-size: clamp(16px, 1.59vw, 24px);}
-#main .left .list_box {width: 100%; height:46vh; overflow: hidden; padding: 25px; background-color: rgba(255, 255, 255, 0.4); }
+#main .left .list_wrap {width: 100%; height:46vh; overflow: hidden; padding: 25px 15px 25px 25px; background-color: rgba(255, 255, 255, 0.4); }
+#main .left .list_wrap ul {width: 100%; height: 100%; padding-right: 10px; overflow: hidden auto; display: flex; flex-direction: column; justify-content: flex-start; gap: 25px;}
+#main .left .list_wrap ul .list_box {width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 20px;}
+#main .left .list_wrap ul .list_box * {cursor: pointer;}
+#main .left .list_wrap .list_box .album_img {width: clamp(45px, 5.9vw, 90px); height: clamp(45px, 5.9vw, 90px); background-color: #999; border-radius: 20px;overflow: hidden;}
+#main .left .list_wrap .list_box .album_info {width: auto; flex: 1 1 auto; font-family: 'IsYun', sans-serif;}
+#main .left .list_wrap .list_box .album_info h3 {font-size: clamp(16px, 1.59vw, 24px);}
+#main .left .list_wrap .list_box .album_info p{font-size: clamp(11px, 1.19vw, 18px);}
+
+#main .left .bottom_btn {width: 100%; display: flex; align-items: center; justify-content: space-between;}
+#main .left .bottom_btn button {font-family: "Jura", sans-serif; padding: 10px 0px; font-size: clamp(18px, 1.98vw, 30px);}
 
 
 
+
+
+/*lp 디자인*/
+#main  .right { width: clamp(300px, 39vw, 600px); height: 100%;}
+#main  .right .lp_wrap {width: clamp(450px, 100vh, 900px); height: clamp(450px, 100vh, 900px); position: relative; top: 50%; left: 90%; transform: translate(-50%, -50%) ; }
+#main  .right .lp_wrap .vinyl {width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 5;}
+#main  .right .lp_wrap img {width: 100%; height: 100%; object-fit: scale-down;}
+#main  .right .lp_wrap .cover_img {width: 30%; height: 30%; background-color: #ddd; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 3; }
 
