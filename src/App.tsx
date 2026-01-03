@@ -3,7 +3,7 @@ import Home from './pages/Home'
 
 function App() {
   return (
-    <BrowserRouter basename={import.meta.env.MODE === 'production' ? '/playlist' : '/'}>
+    <BrowserRouter basename={import.meta.env.VERCEL ? '/' : '/playlist'}>
       <div id="wrap">
         <Routes>
           <Route path="/" element={<Home />} />
