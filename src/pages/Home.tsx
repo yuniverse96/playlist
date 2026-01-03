@@ -1,60 +1,82 @@
+import { useState } from 'react';
 import lpImg from '../../public/images/lp.png';
+import PlaylistItem from '../components/Playlist';
+import SearchList from './SearchList';
+import type { PlaylistItemType } from '../types';
 
-function Home (){
-    return(
-        <>
-            <div id="main">
-                <section className="left">
-                    <h2>my playlist</h2>
-                    <div className="total_info">
-                        <span>now</span><p>0</p>
-                    </div>
-                    <div className="list_wrap">
-                        <ul>
-                            <li className="list_box">
-                                <div className="album_img"></div>
-                                <div className="album_info">
-                                    <h3>노래제목</h3>
-                                    <p>가수</p>
-                                </div>
-                            </li>
-                            <li className="list_box">
-                                <div className="album_img"></div>
-                                <div className="album_info">
-                                    <h3>노래제목</h3>
-                                    <p>가수</p>
-                                </div>
-                            </li>
-                            <li className="list_box">
-                                <div className="album_img"></div>
-                                <div className="album_info">
-                                    <h3>노래제목</h3>
-                                    <p>가수</p>
-                                </div>
-                            </li>
-                            <li className="list_box">
-                                <div className="album_img"></div>
-                                <div className="album_info">
-                                    <h3>노래제목</h3>
-                                    <p>가수</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="bottom_btn">
-                        <button type="button">add music</button>
-                        <button type="button">save list</button>
-                    </div>
-                </section>
-                <section className="right">
-                    <div className="lp_wrap">
-                        <div className="vinyl"><img src={lpImg} alt="lp" /></div>
-                        <div className="cover_img"></div>
-                    </div>
-                </section>
+function Home() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const [playlist, setPlaylist] = useState<PlaylistItemType[]>([]);
+
+  //음악 추가 팝업
+  const handleAddMusic = (item: PlaylistItemType) => {
+    setPlaylist((prev) => [...prev, item]);
+    setIsSearchOpen(false);
+  };
+  //음악 삭제 기능
+  const handleRemoveMusic = (id: number) => {
+    setPlaylist((prev) => prev.filter((item) => item.id !== id));
+  };
+  
+
+  return (
+    <>
+      <div id="main">
+        <section className="left">
+          <h2>my playlist</h2>
+
+          <div className="total_info">
+            <span>now</span>
+            <p>{playlist.length}</p>
+          </div>
+
+          <div className="list_wrap">
+            {playlist.length > 0 ? (
+              <ul>
+                {playlist.map((item) => (
+                  <PlaylistItem
+                    key={item.id}
+                    title={item.title}
+                    artist={item.artist}
+                    albumImg={item.albumImg}
+                    variant="playlist"
+                    onDelete={() => handleRemoveMusic(item.id)}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <div className="empty">
+                 <button type="button" onClick={() => setIsSearchOpen(true)}>곡을 추가해 주세요</button>
+              </div>
+            )}
+          </div>
+
+          <div className="bottom_btn">
+            <button type="button" onClick={() => setIsSearchOpen(true)}>add music</button>
+            <button type="button">save list</button>
+          </div>
+        </section>
+
+        <section className="right">
+          <div className="lp_wrap">
+            <div className="vinyl">
+              <img src={lpImg} alt="lp" />
             </div>
-        </>
-    )
+            <div className="cover_img"></div>
+          </div>
+        </section>
+      </div>
+      {isSearchOpen && (
+        <SearchList
+          onClose={() => setIsSearchOpen(false)}
+          onSelect={handleAddMusic}
+        />
+      )}
+
+    </>
+   
+  );
 }
 
 export default Home;

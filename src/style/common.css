@@ -18,20 +18,28 @@
 /*플레이리스트*/
 #main{width: 100%; height: 100%; padding-left: 11.2vw; display: flex; gap: 100px; align-items: center; flex-wrap: wrap;}
 /* #main .left {width: clamp(300px, 36vw, 550px);  } */
-#main .left {width:auto; flex: 1 1 auto;  }
+#main .left {width:100px; flex: 1 1 auto;  }
 #main .left h2 {display: inline-block; font-family: 'Eonggeongkwi', sans-serif; font-size: clamp(24px, 5vw, 80px); position: relative;}
 #main .left h2::after {content: ""; width: 120%; height: 50px; display: inline-block; background-color: rgba(169, 192, 255, 0.2); position: absolute; top: 70%; left: -17px; transform: rotate(8deg) translate(0,-50%);}
 #main .left .total_info {width: 100%; margin-top: clamp(25px, 4.5vh, 45px); margin-bottom: 10px; display: flex; gap: 45px; align-items: center; color: #202020;  font-family: "Jura", sans-serif;} 
 #main .left .total_info span {font-size: clamp(14px, 1.19vw, 18px);}
 #main .left .total_info p {font-size: clamp(16px, 1.59vw, 24px);}
-#main .left .list_wrap {width: 100%; height:46vh; overflow: hidden; padding: 25px 15px 25px 25px; background-color: rgba(255, 255, 255, 0.4); }
+#main .left .list_wrap {width: 100%; height:46vh; position: relative; overflow: hidden; padding: 25px 15px 25px 25px; background-color: rgba(255, 255, 255, 0.4); }
+
 #main .left .list_wrap ul {width: 100%; height: 100%; padding-right: 10px; overflow: hidden auto; display: flex; flex-direction: column; justify-content: flex-start; gap: 25px;}
 #main .left .list_wrap ul .list_box {width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 20px;}
 #main .left .list_wrap ul .list_box * {cursor: pointer;}
 #main .left .list_wrap .list_box .album_img {width: clamp(45px, 5.9vw, 90px); height: clamp(45px, 5.9vw, 90px); background-color: #999; border-radius: 20px;overflow: hidden;}
-#main .left .list_wrap .list_box .album_info {width: auto; flex: 1 1 auto; font-family: 'IsYun', sans-serif;}
-#main .left .list_wrap .list_box .album_info h3 {font-size: clamp(16px, 1.59vw, 24px);}
+#main .left .list_wrap .list_box .album_img > img {width: 100%; height: 100%; object-fit: cover;}
+#main .left .list_wrap .list_box .album_info {width: auto; flex: 1 1 100px; overflow: hidden; font-family: 'IsYun', sans-serif;}
+#main .left .list_wrap .list_box .album_info h3 {font-size: clamp(16px, 1.59vw, 24px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; word-break: normal; }
 #main .left .list_wrap .list_box .album_info p{font-size: clamp(11px, 1.19vw, 18px);}
+
+
+
+
+#main .left .list_wrap .empty {position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);}
+
 
 #main .left .bottom_btn {width: 100%; display: flex; align-items: center; justify-content: space-between;}
 #main .left .bottom_btn button {font-family: "Jura", sans-serif; padding: 10px 0px; font-size: clamp(18px, 1.98vw, 30px);}
@@ -47,3 +55,22 @@
 #main  .right .lp_wrap img {width: 100%; height: 100%; object-fit: scale-down;}
 #main  .right .lp_wrap .cover_img {width: 30%; height: 30%; background-color: #ddd; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 3; }
 
+
+/*팝업 디자인*/
+#pop_wrap {width: 100vw; height: 100vh; overflow: hidden; position: absolute; top: 0; left: 0; background-color: rgba(0, 0, 0, 0.4); z-index: 10;}
+#pop_wrap .pop_box {width: 50vw; height: 50vh; padding: 25px; display: flex; flex-wrap: wrap; flex-direction: column; background-color: #fff; border-radius: 30px; overflow: hidden; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 20;}
+#pop_wrap .pop_box > h3 {font-size: 18px;}
+#pop_wrap .pop_box .input_wrap {width: 100%; height: 40px; padding: 5px 10px; overflow: hidden; border: 1px solid #f00; border-radius: 40px;}
+#pop_wrap .pop_box .input_wrap input {width: 100%; height: 100%;}
+
+#pop_wrap .pop_box .result_wrap {width: 100%; height: 100px; flex: 1 1 auto; overflow: hidden auto;}
+#pop_wrap .pop_box .result_wrap ul {width: 100%; height: 100%; padding-right: 10px; overflow: hidden auto; display: flex; flex-direction: column; justify-content: flex-start; gap: 25px;}
+#pop_wrap .pop_box .result_wrap ul .list_box {width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 20px;}
+#pop_wrap .pop_box .result_wrap ul .list_box * {cursor: pointer;}
+#pop_wrap .pop_box .result_wrap .list_box .album_img {width: clamp(45px, 5.9vw, 90px); height: clamp(45px, 5.9vw, 90px); background-color: #999; border-radius: 20px;overflow: hidden;}
+#pop_wrap .pop_box .result_wrap .list_box .album_img > img {width: 100%; height: 100%; object-fit: cover;}
+#pop_wrap .pop_box .result_wrap .list_box .album_info {width: auto; flex: 1 1 100px; overflow: hidden; font-family: 'IsYun', sans-serif;}
+#pop_wrap .pop_box .result_wrap .list_box .album_info h3 {font-size: clamp(16px, 1.59vw, 24px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; word-break: normal; }
+#pop_wrap .pop_box .result_wrap .list_box .album_info p{font-size: clamp(11px, 1.19vw, 18px);}
+
+#pop_wrap .pop_box .close {position: absolute; top: 0px; left: 0px;}
