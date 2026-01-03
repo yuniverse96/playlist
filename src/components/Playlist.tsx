@@ -3,10 +3,12 @@ type Props = {
   artist: string;
   albumImg: string;
   onClick?: () => void;
-  variant?: 'search' | 'playlist'; // 버튼 타입
+  variant?: 'search' | 'playlist';
   onAdd?: () => void;
   onDelete?: () => void;
-};
+  onPlay?: () => void;
+}
+
 
 function PlaylistItem({
   title,
@@ -16,6 +18,7 @@ function PlaylistItem({
   variant,
   onAdd,
   onDelete,
+  onPlay,
 }: Props) {
   return (
     <li className="list_box" onClick={onClick}>
@@ -24,7 +27,11 @@ function PlaylistItem({
       </div>
 
       <div className="album_info">
-        <h3>{title}</h3>
+        {variant === 'playlist' ? (
+            <h3 onClick={() => onPlay?.()}>{title}</h3>
+          ) : (
+            <h3>{title}</h3>
+        )}
         <p>{artist}</p>
       </div>
 

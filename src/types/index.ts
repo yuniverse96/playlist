@@ -4,5 +4,6 @@ export type PlaylistItemType = {
     title: string;
     artist: string;
     albumImg: string;
+    videoId: string;
   };
   
