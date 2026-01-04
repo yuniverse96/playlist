@@ -1,35 +1,28 @@
 import { useState } from 'react';
-import lpImg from '../../public/images/lp.png';
 import PlaylistItem from '../components/Playlist';
 import SearchList from './SearchList';
 import type { PlaylistItemType } from '../types';
 
 function Home() {
-  //곡 검색 팝업 상태
+  // 곡 검색 팝업 상태
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  //음악 리스트
+  // 음악 리스트
   const [playlist, setPlaylist] = useState<PlaylistItemType[]>([]);
-
-  //재생중인곡 인덱스
+  // 재생중인곡 인덱스
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  //음악 재생 상태
+  // 음악 재생 상태
   const [isPlaying, setIsPlaying] = useState(false);
 
-  //음악 추가 팝업
+  // 음악 추가 팝업
   const handleAddMusic = (item: PlaylistItemType) => {
     setPlaylist((prev) => [...prev, item]);
     setIsSearchOpen(false);
   };
-  //음악 삭제 기능
+
+  // 음악 삭제 기능
   const handleRemoveMusic = (id: number) => {
     setPlaylist((prev) => prev.filter((item) => item.id !== id));
   };
-
-  //음악 재생
-  // const _handlePlay = (index: number) => {
-  //   console.log(index); // 나중에 사용 예정
-  // };
-  
 
   return (
     <>
@@ -62,7 +55,9 @@ function Home() {
               </ul>
             ) : (
               <div className="empty">
-                 <button type="button" onClick={() => setIsSearchOpen(true)}>곡을 추가해 주세요</button>
+                <button type="button" onClick={() => setIsSearchOpen(true)}>
+                  곡을 추가해 주세요
+                </button>
               </div>
             )}
           </div>
@@ -76,12 +71,13 @@ function Home() {
         <section className="right">
           <div className="lp_wrap">
             <div className="vinyl">
-              <img src={lpImg} alt="lp" />
+              <img src="/images/lp.png" alt="lp" />
             </div>
             <div className="cover_img"></div>
           </div>
         </section>
       </div>
+
       {isSearchOpen && (
         <SearchList
           onClose={() => setIsSearchOpen(false)}
@@ -100,10 +96,8 @@ function Home() {
           allow="autoplay; encrypted-media"
           allowFullScreen
         ></iframe>
-      )}  
-
+      )}
     </>
-   
   );
 }
 

@@ -27,24 +27,39 @@ function SearchList({ onClose, onSelect }: Props) {
 
   const handleSearch = async () => {
     if (!query.trim()) return;
-
+  
     try {
       setLoading(true);
       setIsSearched(true);
+  
+      const API_BASE = ''; // 프록시 설정 o, 상대 경로로 호출 가능
+      const res = await fetch(`${API_BASE}/api/SearchYoutube?q=${encodeURIComponent(query)}`);
 
-      // 서버리스 함수 호출
-      const res = await fetch(`/api/SearchYoutube?q=${encodeURIComponent(query)}`);
-      if (!res.ok) throw new Error('youtube search fail');
-
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('YouTube API error:', text);
+  
+        if (text.includes('quota')) {
+          alert('오늘 할당량을 모두 사용했습니다. 내일 다시 시도해주세요.');
+        } else {
+          alert('검색 중 오류가 발생했습니다.');
+        }
+  
+        setResults([]);
+        return;
+      }
+  
       const items: YoutubeItem[] = await res.json();
       setResults(items);
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error('Fetch failed', err);
+      alert('검색 중 오류가 발생했습니다.');
       setResults([]);
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div id="pop_wrap">

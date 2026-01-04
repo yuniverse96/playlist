@@ -1,7 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const API_KEY = process.env.YOUTUBE_API_KEY;
-
 type YoutubeItem = {
   id: { videoId: string };
   snippet: {
@@ -33,20 +31,35 @@ const isOfficialVideo = (item: YoutubeItem) => {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+
+const API_KEY = process.env.YOUTUBE_API_KEY || process.env.VITE_YOUTUBE_API_KEY;
+
+  if (!API_KEY) {
+    console.error('YOUTUBE_API_KEY is missing!');
+    return res.status(500).json({ error: 'Server misconfiguration: missing API key' });
+  }
+
+  console.log('API_KEY 존재 여부:', !!API_KEY);
+
   try {
     const query = req.query.q as string;
-    if (!query) return res.status(400).json({ error: 'Missing query' });
+    if (!query) {
+      console.log('쿼리 없음');
+      return res.status(400).json({ error: 'Missing query' });
+    }
 
     const finalQuery = buildQuery(query);
+    console.log('finalQuery:', finalQuery);
 
     const response = await fetch(
       `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&maxResults=25&order=relevance&regionCode=KR&relevanceLanguage=ko&q=${encodeURIComponent(finalQuery)}&key=${API_KEY}`
     );
+    console.log('API 호출 완료, status:', response.status);
 
     if (!response.ok) {
       const text = await response.text();
+      console.error('YouTube API 오류:', text);
 
-      // quotaExceeded 처리
       if (text.includes('quotaExceeded')) {
         return res.status(429).json({
           error: 'YouTube API quota exceeded',
@@ -58,12 +71,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const data = await response.json();
+    console.log('받은 데이터 items 수:', data.items.length);
+
     const officialItems: YoutubeItem[] = data.items.filter(isOfficialVideo);
     const result = officialItems.length >= 5 ? officialItems : data.items.slice(0, 10);
+    console.log('최종 결과 items 수:', result.length);
 
     res.status(200).json(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Server error', detail: err });
+    console.error('서버 에러 발생:', err);
+    res.status(500).json({ error: 'Server error', detail: String(err) });
+  } finally {
+    console.log('=== API 호출 종료 ===');
   }
 }
