@@ -5,13 +5,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/',
   server: {
-    port: 5173, // Vite 개발 서버 포트
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000', // Vercel Dev 서버 포트
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
+    port: 5173, // Vite는 원래포트
+    strictPort: true, // 5173이 아니면 실행되지 않게 강제.
+  }
 });

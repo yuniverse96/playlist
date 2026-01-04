@@ -31,6 +31,10 @@ const isOfficialVideo = (item: YoutubeItem) => {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // 엣지 캐싱 설정 (응답 시작 부분에 추가)
+  // s-maxage=3600: Vercel 서버(엣지)에 1시간 동안 보관
+  // stale-while-revalidate=59: 캐시가 만료되어도 59초 동안은 예전 데이터를 보여주며 백그라운드에서 갱신
+  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=59');
 
 const API_KEY = process.env.YOUTUBE_API_KEY || process.env.VITE_YOUTUBE_API_KEY;
 
@@ -52,7 +56,7 @@ const API_KEY = process.env.YOUTUBE_API_KEY || process.env.VITE_YOUTUBE_API_KEY;
     console.log('finalQuery:', finalQuery);
 
     const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&maxResults=25&order=relevance&regionCode=KR&relevanceLanguage=ko&q=${encodeURIComponent(finalQuery)}&key=${API_KEY}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&maxResults=10&order=relevance&regionCode=KR&relevanceLanguage=ko&q=${encodeURIComponent(finalQuery)}&key=${API_KEY}`
     );
     console.log('API 호출 완료, status:', response.status);
 

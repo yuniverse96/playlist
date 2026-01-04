@@ -64,47 +64,47 @@ function SearchList({ onClose, onSelect }: Props) {
   return (
     <div id="pop_wrap">
       <div className="pop_box">
-        <h3>search_music</h3>
-
-        <div className="input_wrap">
-          <input
-            type="text"
-            placeholder="노래나 가수 검색"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          />
-        </div>
-
-        <div className="result_wrap">
-          {loading && <p className="loading_text">검색 중...</p>}
-          {results.length > 0 ? (
-            <ul>
-              {results.map((item) => (
-                <PlaylistItem
-                  key={item.id.videoId}
-                  title={he.decode(item.snippet.title)}
-                  artist={he.decode(item.snippet.channelTitle)}
-                  albumImg={item.snippet.thumbnails.medium.url}
-                  variant="search"
-                  onAdd={() => {
-                    onSelect({
-                      id: Date.now(),
-                      title: he.decode(item.snippet.title),
-                      artist: he.decode(item.snippet.channelTitle),
-                      albumImg: item.snippet.thumbnails.medium.url,
-                      videoId: item.id.videoId,
-                    });
-                  }}
-                />
-              ))}
-            </ul>
-          ) : (
-            isSearched && !loading && (
-              <p className="empty_result">앗! 찾으시는 음악이 없어요</p>
-            )
-          )}
-        </div>
+          <div className="card_wrap">
+            <div className="input_wrap">
+              <label>요청곡 : </label>
+              <input
+                type="text"
+                placeholder="제목이나 가수 + press enter"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+            </div>
+            <div className="result_wrap">
+              {loading && <p className="loading_text">검색 중...</p>}
+              {results.length > 0 ? (
+                <ul>
+                  {results.map((item) => (
+                    <PlaylistItem
+                      key={item.id.videoId}
+                      title={he.decode(item.snippet.title)}
+                      artist={he.decode(item.snippet.channelTitle)}
+                      albumImg={item.snippet.thumbnails.medium.url}
+                      variant="search"
+                      onAdd={() => {
+                        onSelect({
+                          id: Date.now(),
+                          title: he.decode(item.snippet.title),
+                          artist: he.decode(item.snippet.channelTitle),
+                          albumImg: item.snippet.thumbnails.medium.url,
+                          videoId: item.id.videoId,
+                        });
+                      }}
+                    />
+                  ))}
+                </ul>
+              ) : (
+                isSearched && !loading && (
+                  <p className="empty_result">앗! 찾으시는 음악이 없어요</p>
+                )
+              )}
+            </div>
+          </div>
 
         <button className="close" type="button" onClick={onClose}>
           닫기
