@@ -1,6 +1,5 @@
 import { useState,useRef } from 'react';
 import YouTube from 'react-youtube';
-import type { YouTubeProps } from 'react-youtube';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import PlaylistItem from '../components/Playlist';
@@ -75,6 +74,8 @@ function Home() {
 
     //재생/정지 감속
     useGSAP(() => {
+      // animation.current가 있는지 먼저 확인 TS 에러 방지
+      if (!animation.current) return;
       if (isPlaying && playlist[currentIndex]) {
         //LP판 회전 속도 올리기
         animation.current?.play();
@@ -90,7 +91,7 @@ function Home() {
           }
         }, 900);
 
-
+        return () => clearTimeout(timer);
       } else {
         //LP판 회전 속도 줄이기
         gsap.to(animation.current, { timeScale: 0, duration: 2, ease: "power1.out" });
@@ -187,8 +188,8 @@ function Home() {
                 enablejsapi: 1,
               },
             }}
-            onReady={(event) => {
-              playerRef.current = event.target; // 플레이어 인스턴스 저장
+            onReady={(event: any) => {
+              playerRef.current = event.target;//player 인스턴스 저장
             }}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
