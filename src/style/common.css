@@ -16,9 +16,9 @@
 #wrap * {box-sizing: border-box;}
 
 /*플레이리스트*/
-#main{width: 100%; height: 100%; padding-left: 11.2vw; display: flex; gap: 100px; align-items: center; flex-wrap: wrap;}
+#main{width: 100%; height: 100%; padding-left: 11.2vw; display: flex; gap: 5vw; align-items: center; }
 /* #main .left {width: clamp(300px, 36vw, 550px);  } */
-#main .left {width:100px; flex: 1 1 auto;  }
+#main .left {width: clamp(300px, 39vw, 600px);  }
 #main .left h2 {display: inline-block; font-family: 'Eonggeongkwi', sans-serif; font-size: clamp(24px, 5vw, 80px); position: relative;}
 #main .left h2::after {content: ""; width: 120%; height: 50px; display: inline-block; background-color: rgba(169, 192, 255, 0.2); position: absolute; top: 70%; left: -17px; transform: rotate(8deg) translate(0,-50%);}
 #main .left .total_info {width: 100%; margin-top: clamp(25px, 4.5vh, 45px); margin-bottom: 10px; display: flex; gap: 45px; align-items: center; color: #202020;  font-family: "Jura", sans-serif;} 
@@ -35,9 +35,6 @@
 #main .left .list_wrap .list_box .album_info h3 {font-size: clamp(16px, 1.59vw, 24px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; word-break: normal; }
 #main .left .list_wrap .list_box .album_info p{font-size: clamp(11px, 1.19vw, 18px);}
 
-
-
-
 #main .left .list_wrap .empty {position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);}
 
 
@@ -49,8 +46,8 @@
 
 
 /*lp 디자인*/
-#main  .right { width: clamp(500px, 39vw, 1000px); height: 100%; position: relative;}
-#main  .right .lp_bar {position: absolute; top: -5vh; left: -15%; z-index: 8; transform-origin: left top;  height: 67%; aspect-ratio: 190/660; overflow: hidden;}
+#main  .right { width: clamp(500px, 39vw, 1000px); flex:1 1 auto; height: 100%; position: relative;}
+#main  .right .lp_bar {position: absolute; top: -5vh; left: 15%; z-index: 8; transform-origin: left top;  height: 67%; aspect-ratio: 190/660; overflow: hidden;}
 #main  .right .lp_bar > img {width: 100%; height: 100%; object-fit: cover;}
 #main  .right .lp_wrap {width: clamp(500px, 100vh, 1200px); height: clamp(500px, 100vh, 1200px); position: relative; top: 50%; left: 90%; transform: translate(-50%, -50%) ; }
 #main  .right .lp_wrap .vinyl {width: 100%; height: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 5;}
