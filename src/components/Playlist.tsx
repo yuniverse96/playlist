@@ -10,41 +10,34 @@ type Props = {
 }
 
 
-function PlaylistItem({
-  title,
-  artist,
-  albumImg,
-  onClick,
-  variant,
-  onAdd,
-  onDelete,
-  onPlay,
-}: Props) {
+function PlaylistItem({ title, artist, albumImg, variant, onAdd, onDelete, onPlay }: Props) {
+  // 아이템 클릭 시 작동 (플레이리스트 => 재생, 검색 모드 => x)
+  const handleItemClick = () => {
+    if (variant === 'playlist') {
+      onPlay?.();
+    }
+  };
+
   return (
-    <li className="list_box" onClick={onClick}>
+    <li className={`list_box ${variant}`} onClick={handleItemClick}>
       <div className="album_img">
         <img src={albumImg} alt={title} />
       </div>
 
       <div className="album_info">
-        {variant === 'playlist' ? (
-            <h3 onClick={() => onPlay?.()}>{title}</h3>
-          ) : (
-            <h3>{title}</h3>
-        )}
+        <h3>{title}</h3>
         <p>{artist}</p>
       </div>
 
-      {variant && (
-        <button
-          type="button"
-          className={variant === 'search' ? 'add_btn' : 'delete_btn'}
-          onClick={(e) => {
-            e.stopPropagation();
-            variant === 'search' ? onAdd?.() : onDelete?.();
-          }}
-        >
-          {variant === 'search' ? '+' : '✕'}
+      {variant === 'search' && (
+        <button className="add_btn" type="button" onClick={(e) => { e.stopPropagation(); onAdd?.(); }}>
+          +
+        </button>
+      )}
+
+      {variant === 'playlist' && (
+        <button className="delete_btn" type="button" onClick={(e) => { e.stopPropagation(); onDelete?.(); }}>
+          ✕
         </button>
       )}
     </li>

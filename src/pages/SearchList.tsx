@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { PlaylistItemType } from '../types';
 import PlaylistItem from '../components/Playlist';
 import he from 'he';
+import gsap from 'gsap';
 
 type YoutubeItem = {
   id: { videoId: string };
@@ -24,6 +25,7 @@ function SearchList({ onClose, onSelect }: Props) {
   const [results, setResults] = useState<YoutubeItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [isSearched, setIsSearched] = useState(false);
+  const loadingTextRef = useRef<HTMLParagraphElement>(null);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -59,6 +61,34 @@ function SearchList({ onClose, onSelect }: Props) {
       setLoading(false);
     }
   };
+  //로딩중 텍스트 이펙트
+  useEffect(() => {
+    if (loading && loadingTextRef.current) {
+      // 모든 글자 span 요소들을 선택
+      const chars = loadingTextRef.current.querySelectorAll('.loading_char');
+
+      gsap.fromTo(
+        chars,
+        { y: 0 },
+        {
+          y: -10, // 위로 10px 움직임
+          repeat: -1,
+          yoyo: true, // 갔다가 다시 돌아옴
+          ease: 'sine.inOut',
+          stagger: 0.1, // 각 글자가 0.1초씩 지연되어 애니메이션 시작
+          duration: 0.6, // 각 글자의 움직임 시간
+        }
+      );
+    } else {
+      // 로딩이 끝나면 애니메이션 멈춤
+      gsap.killTweensOf(loadingTextRef.current);
+    }
+
+    // 컴포넌트 언마운트 또는 loading 상태 변경 시 애니메이션 정리
+    return () => {
+      gsap.killTweensOf(loadingTextRef.current);
+    };
+  }, [loading]); // loading 상태가 바뀔 때마다 useEffect 재실행
   
 
   return (
@@ -76,38 +106,51 @@ function SearchList({ onClose, onSelect }: Props) {
               />
             </div>
             <div className="result_wrap">
-              {loading && <p className="loading_text">검색 중...</p>}
-              {results.length > 0 ? (
-                <ul>
-                  {results.map((item) => (
-                    <PlaylistItem
-                      key={item.id.videoId}
-                      title={he.decode(item.snippet.title)}
-                      artist={he.decode(item.snippet.channelTitle)}
-                      albumImg={item.snippet.thumbnails.medium.url}
-                      variant="search"
-                      onAdd={() => {
-                        onSelect({
-                          id: Date.now(),
-                          title: he.decode(item.snippet.title),
-                          artist: he.decode(item.snippet.channelTitle),
-                          albumImg: item.snippet.thumbnails.medium.url,
-                          videoId: item.id.videoId,
-                        });
-                      }}
-                    />
-                  ))}
-                </ul>
-              ) : (
-                isSearched && !loading && (
-                  <p className="empty_result">앗! 찾으시는 음악이 없어요</p>
-                )
-              )}
+                {loading ? (
+                  <p className="loading_text" ref={loadingTextRef}>
+                    {'노래 찾는 중...'.split('').map((char, index) => (
+                      <span key={index} className="loading_char">
+                        {char === ' ' ? '\u00A0' : char}
+                      </span>
+                    ))}
+                  </p>
+                ) : (
+                  <>
+                    {/*결과가 있을 때 */}
+                    {results.length > 0 ? (
+                      <ul>
+                        {results.map((item) => (
+                          <PlaylistItem
+                            key={item.id.videoId}
+                            title={he.decode(item.snippet.title)}
+                            artist={he.decode(item.snippet.channelTitle)}
+                            albumImg={item.snippet.thumbnails.medium.url}
+                            variant="search"
+                            onAdd={() => {
+                              onSelect({
+                                id: Date.now() + Math.random(), // 중복 방지
+                                title: he.decode(item.snippet.title),
+                                artist: he.decode(item.snippet.channelTitle),
+                                albumImg: item.snippet.thumbnails.medium.url,
+                                videoId: item.id.videoId,
+                              });
+                            }}
+                          />
+                        ))}
+                      </ul>
+                    ) : (
+                      /*결과가 없을 때 (검색을 한 번이라도 했을 경우만) */
+                      isSearched && (
+                        <p className="empty_result">앗! 찾으시는 음악이 없어요</p>
+                      )
+                    )}
+                  </>
+                )}
             </div>
-          </div>
+      </div>
 
         <button className="close" type="button" onClick={onClose}>
-          닫기
+          <img src="/images/close.svg" alt="닫기"/>
         </button>
       </div>
     </div>
