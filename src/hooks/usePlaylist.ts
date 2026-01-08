@@ -1,8 +1,13 @@
-import { useState } from 'react';
-import type { PlaylistItemType } from '../types';
+import { useState, useEffect } from 'react';
+import type { SavedListType, PlaylistItemType } from '../types';
+
 
 export const usePlaylist = () => {
+
   const [playlist, setPlaylist] = useState<PlaylistItemType[]>([]);
+  const [allSavedLists, setAllSavedLists] = useState<SavedListType[]>([]);
+  const [lastSavedList, setLastSavedList] = useState<PlaylistItemType[]>([]);
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);//에러 메세지
@@ -13,22 +18,52 @@ export const usePlaylist = () => {
     setTimeout(() => setToastMessage(null), 1000); 
   };
 
-//   //초기 로드: 로컬스토리지에서 불러오기
-//   useEffect(() => {
-//     const saved = localStorage.getItem('my-playlist');
-//     if (saved) {
-//       try {
-//         setPlaylist(JSON.parse(saved));
-//       } catch (e) {
-//         console.error("데이터 파싱 에러", e);
-//       }
-//     }
-//   }, []);
+  //초기 빈배열 로드
+  useEffect(() => {
+    const saved = localStorage.getItem('saved-playlists');
+    if (saved) {
+      setAllSavedLists(JSON.parse(saved));
+    }
+  }, []);
+  
+    //저장 기능: 제목 입력받아 전체 목록에 추가
+    const handleSaveList = () => {
+        if (playlist.length === 0) return;
+        const title = prompt("플레이리스트 제목을 정해주세요! 😊");
+        if (!title) return;
+        // 현재 날짜 생성 (예: 2024. 3. 21.)
+        const currentDate = new Date().toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        });
 
-  // 저장 기능
-  const handleSaveList = () => {
-    showToast("현재 플레이리스트 저장 기능은 개발 중입니다! 🚧");
-  };
+        const newList = { 
+            id: Date.now(), 
+            title, 
+            date: currentDate, // ✅ 날짜 필드 추가
+            items: [...playlist] 
+        };
+        const updatedTotal = [...allSavedLists, newList];
+
+        setAllSavedLists(updatedTotal);
+        localStorage.setItem('saved-playlists', JSON.stringify(updatedTotal));
+        
+        // 현재 리스트를 저장점으로 기록 (버튼을 load list로 돌리기 위함)
+        setLastSavedList([...playlist]);
+        showToast(`'${title}' 저장 완료!`);
+    };
+
+    //특정 리스트 불러오기
+    const loadSpecificList = (items: PlaylistItemType[]) => {
+        setPlaylist(items);            //새로운 리스트로 교체
+        setLastSavedList(items);       //저장 시점 동기화
+        setCurrentIndex(0);            //인덱스를 첫 번째 곡으로 초기화
+        showToast("리스트를 불러왔습니다! 🎵");
+      };
+  
+  //변경 여부 확인 (곡 구성이 같은지 비교)
+  const isChanged = JSON.stringify(playlist) !== JSON.stringify(lastSavedList);
 
   // 곡 추가
   const handleAddMusic = (item: PlaylistItemType) => {
@@ -85,7 +120,8 @@ export const usePlaylist = () => {
       setCurrentIndex((prev) => prev + 1);
       setIsPlaying(true);
     } else {
-      setIsPlaying(false);
+        setCurrentIndex(0);
+        setIsPlaying(true);
     }
   };
 
@@ -95,13 +131,16 @@ export const usePlaylist = () => {
     currentIndex,
     isPlaying,
     toastMessage,
+    isChanged,  
+    allSavedLists,
+    handleSaveList,
+    loadSpecificList,
     showToast,
     setPlaylist,
     setCurrentIndex,
     setIsPlaying,
     handleAddMusic,
     handleRemoveMusic,
-    handleSaveList,
     onPlayerEnd,
   };
 };

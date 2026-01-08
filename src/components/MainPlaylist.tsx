@@ -5,11 +5,16 @@ type Props = {
   playlist: PlaylistItemType[];
   onRemove: (id: number) => void;
   onPlay: (id: number) => void;
+  isChanged: boolean; // 변경 여부 추가
   onSave: () => void;
+  onLoad: () => void;
   onOpenSearch: () => void;
 };
 
-function MainPlaylist({ playlist, onRemove, onPlay, onSave, onOpenSearch }: Props) {
+function MainPlaylist({ playlist, onRemove, onPlay, isChanged, onSave, onLoad, onOpenSearch }: Props) {
+  const showLoadButton = playlist.length === 0 || !isChanged;
+
+
   return (
       <>
         <h2>my playlist</h2>
@@ -44,8 +49,12 @@ function MainPlaylist({ playlist, onRemove, onPlay, onSave, onOpenSearch }: Prop
         </div>
 
         <div className="bottom_btn">
-        <button type="button" onClick={onOpenSearch}>add music</button>
-        <button type="button" onClick={onSave}>save list</button>
+          <button type="button" onClick={onOpenSearch}>add music</button>
+          {showLoadButton ? (
+              <button type="button" onClick={onLoad}>load list</button>
+            ) : (
+              <button type="button" onClick={onSave} className="save">save list</button>
+          )}
         </div>
       </>
    

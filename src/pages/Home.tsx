@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import SearchList from './SearchList';
+import LoadList from '../components/LoadList';
 import MainPlaylist from '../components/MainPlaylist';
 import VinylPlayer from '../components/VinylPlayer';
 import { usePlaylist } from '../hooks/usePlaylist';
@@ -8,13 +9,17 @@ import { usePlaylist } from '../hooks/usePlaylist';
 
 function Home() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
   
   //Custom Hook 사용
   const {
     playlist,
     currentIndex,
     isPlaying,
+    isChanged,
     toastMessage,
+    allSavedLists,
+    loadSpecificList,
     showToast,
     setCurrentIndex,
     setIsPlaying,
@@ -62,7 +67,9 @@ useEffect(() => {
           <MainPlaylist 
           playlist={playlist}
           onRemove={handleRemoveMusic}
+          isChanged={isChanged}
           onSave={handleSaveList}
+          onLoad={() => setIsLoadModalOpen(true)}
           onOpenSearch={() => setIsSearchOpen(true)}
           onPlay={(id) => {
             const index = playlist.findIndex(p => p.id === id);
@@ -89,6 +96,18 @@ useEffect(() => {
           onError={showToast}
         />
       )}
+
+      {isLoadModalOpen && (
+        <LoadList
+          allSavedLists={allSavedLists}
+          onClose={() => setIsLoadModalOpen(false)}
+          onSelect={(items) => {
+            loadSpecificList(items);
+            setIsLoadModalOpen(false);
+          }}
+        />
+      )}
+
       {toastMessage && (
         <div id="toast_pop">
           <div className="toast_message">

@@ -6,4 +6,11 @@ export type PlaylistItemType = {
     albumImg: string;
     videoId: string;
   };
+
+  export type SavedListType = {
+    id: number;
+    title: string;
+    date: string;
+    items: PlaylistItemType[];
+  };
   
