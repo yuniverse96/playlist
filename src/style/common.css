@@ -55,8 +55,8 @@
 
 /*팝업 디자인*/
 #pop_wrap {width: 100vw; height: 100vh; min-width: 1024px; overflow: hidden; position: absolute; top: 0; left: 0; background-color: rgba(0, 0, 0, 0.4); z-index: 10;}
-#pop_wrap .pop_box {width: 50vw; aspect-ratio: 900 / 675; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 20;}
-#pop_wrap .pop_box .card_wrap {width: 50vw; aspect-ratio: 900 / 675; overflow: hidden; padding: 7% 5% 5% 17%; display: flex; flex-direction: column; flex-wrap: wrap; gap: 20px; background: url(/public/images/list_card.png) no-repeat center center/ cover; }
+#pop_wrap .pop_box {width: 50%; aspect-ratio: 900 / 675; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 20;}
+#pop_wrap .pop_box .card_wrap {width: 100%; aspect-ratio: 900 / 675; overflow: hidden; padding: 7% 5% 5% 17%; display: flex; flex-direction: column; flex-wrap: wrap; gap: 20px; background: url(/public/images/list_card.png) no-repeat center center/ cover; }
 
 #pop_wrap .pop_box .input_wrap {width: 100%; height: clamp(25px, 10%, 40px); display: flex; flex-wrap: wrap; align-items: center; gap: 15px; overflow: hidden;  font-family: 'IsYun', sans-serif; font-size: clamp(16px, 1.59vw, 24px);}
 #pop_wrap .pop_box .input_wrap input {width: 10%; height: 100%; flex:1 1 auto;  font-family: 'IsYun', sans-serif;  font-size: clamp(16px, 1.59vw, 24px);}
@@ -79,14 +79,12 @@
 #pop_wrap .pop_box .result_wrap .save_box .top h3 {font-size: clamp(16px, 1.59vw, 24px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; word-break: normal; }
 #pop_wrap .pop_box .result_wrap .save_box .top .list_count {font-size: clamp(14px, 1.19vw, 18px);}
 #pop_wrap .pop_box .result_wrap .save_box .list_date {font-size: clamp(11px, 1.19vw, 18px); color: #999;}
-
-
-
-#pop_wrap .pop_box .close {position: fixed; top: -10px; right: 0px; width: 20px; height: 20px; overflow: hidden;}
+ 
+#pop_wrap .pop_box .close {position: absolute; top: -10px; right: 0px; width: 20px; height: 20px; overflow: hidden;}
 #pop_wrap .pop_box .close img {width: 100%; height: 100%; object-fit: contain; display: block;}
 
 #pop_wrap .pop_box .card_wrap .loading_text { text-align: center; font-size: 1.2em; color: #202020;}
 #pop_wrap .pop_box .card_wrap .loading_text .loading_char {display: inline-block;}
 
 
-#toast_pop {position: fixed; z-index: 999; background-color: #202020; color: #fff; top: 50%; left: 50%; transform: translate(-50%,-50%); padding: 10px 20px;}
+#toast_pop {position: fixed; z-index: 999; background-color: #202020; color: #fff; bottom: 10%; left: 50%; transform: translate(-50%,-50%); padding: 10px 20px;}
