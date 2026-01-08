@@ -3,6 +3,7 @@ import PlaylistItem from './Playlist';
 
 type Props = {
   playlist: PlaylistItemType[];
+  currentIndex: number;
   onRemove: (id: number) => void;
   onPlay: (id: number) => void;
   isChanged: boolean; // 변경 여부 추가
@@ -11,7 +12,7 @@ type Props = {
   onOpenSearch: () => void;
 };
 
-function MainPlaylist({ playlist, onRemove, onPlay, isChanged, onSave, onLoad, onOpenSearch }: Props) {
+function MainPlaylist({ playlist, currentIndex, onRemove, onPlay, isChanged, onSave, onLoad, onOpenSearch }: Props) {
   const showLoadButton = playlist.length === 0 || !isChanged;
 
 
@@ -27,9 +28,10 @@ function MainPlaylist({ playlist, onRemove, onPlay, isChanged, onSave, onLoad, o
         <div className="list_wrap">
         {playlist.length > 0 ? (
             <ul>
-            {playlist.map((item) => (
+            {playlist.map((item, index) => (
                 <PlaylistItem
                 key={item.id}
+                isActive={index === currentIndex}
                 title={item.title}
                 artist={item.artist}
                 albumImg={item.albumImg}

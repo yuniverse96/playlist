@@ -19,6 +19,7 @@ function Home() {
     isChanged,
     toastMessage,
     allSavedLists,
+    deleteSavedList,
     loadSpecificList,
     showToast,
     setCurrentIndex,
@@ -68,6 +69,7 @@ useEffect(() => {
           playlist={playlist}
           onRemove={handleRemoveMusic}
           isChanged={isChanged}
+          currentIndex={currentIndex}
           onSave={handleSaveList}
           onLoad={() => setIsLoadModalOpen(true)}
           onOpenSearch={() => setIsSearchOpen(true)}
@@ -105,6 +107,7 @@ useEffect(() => {
             loadSpecificList(items);
             setIsLoadModalOpen(false);
           }}
+          onDeleteList={deleteSavedList}
         />
       )}
 

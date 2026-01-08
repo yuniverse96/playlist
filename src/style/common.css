@@ -18,9 +18,9 @@
 #main{width: 100%; height: 100%; padding-left: 11.2%; display: flex; gap: 5%; align-items: center; }
 /* #main .left {width: clamp(300px, 36vw, 550px);  } */
 #main .left {width: clamp(300px, 39%, 600px);  }
-#main .left h2 {display: inline-block; font-family: 'Eonggeongkwi', sans-serif; font-size: clamp(24px, 5vw, 80px); position: relative;}
+#main .left h2 {display: inline-block; font-family: 'Eonggeongkwi', sans-serif; font-size: clamp(50px, 5vw, 80px); position: relative;}
 #main .left h2::after {content: ""; width: 120%; height: 50px; display: inline-block; background-color: rgba(169, 192, 255, 0.2); position: absolute; top: 70%; left: -17px; transform: rotate(8deg) translate(0,-50%);}
-#main .left .total_info {width: 100%; margin-top: clamp(25px, 4.5vh, 45px); margin-bottom: 10px; display: flex; gap: 45px; align-items: center; color: #202020;  font-family: "Jura", sans-serif;} 
+#main .left .total_info {width: 100%; margin-top: clamp(24px, 4.5vh, 45px); margin-bottom: 10px; display: flex; gap: 45px; align-items: center; color: #202020;  font-family: "Jura", sans-serif;} 
 #main .left .total_info span {font-size: clamp(14px, 1.19vw, 18px);}
 #main .left .total_info p {font-size: clamp(16px, 1.59vw, 24px);}
 #main .left .list_wrap {width: 100%; height:46vh; position: relative; overflow: hidden; padding: 25px 15px 25px 25px; background-color: rgba(255, 255, 255, 0.4); }
@@ -31,11 +31,18 @@
 
 #main .left .list_wrap ul .list_box {width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 20px;}
 #main .left .list_wrap ul .list_box * {cursor: pointer;}
-#main .left .list_wrap .list_box .album_img {width: clamp(60px, 15.7%, 90px); aspect-ratio: 1/1; background-color: #999; border-radius: 30%;overflow: hidden;}
+#main .left .list_wrap .list_box .album_img {width: clamp(60px, 15.7%, 90px); aspect-ratio: 1/1; background-color: #999; border-radius: 30%;overflow: hidden; transition: all ease-in 0.2s;}
 #main .left .list_wrap .list_box .album_img > img {width: 100%; height: 100%; object-fit: cover;}
 #main .left .list_wrap .list_box .album_info {width: auto; flex: 1 1 100px; overflow: hidden; font-family: 'IsYun', sans-serif;}
 #main .left .list_wrap .list_box .album_info h3 {font-size: clamp(16px, 1.59vw, 24px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; word-break: normal; }
 #main .left .list_wrap .list_box .album_info p{font-size: clamp(11px, 1.19vw, 18px);}
+
+#main .left .list_wrap .list_box.now .album_img {border: 2px solid #773ee8;}
+#main .left .list_wrap .list_box.now .album_info {color: #773ee8;}
+
+
+
+
 
 #main .left .list_wrap .empty {position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);}
 
@@ -73,13 +80,29 @@
 #pop_wrap .pop_box .result_wrap .list_box .album_info h3 {font-size: clamp(16px, 1.59vw, 24px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; word-break: normal; }
 #pop_wrap .pop_box .result_wrap .list_box .album_info p{font-size: clamp(11px, 1.19vw, 18px);}
 
+
 #pop_wrap .pop_box .result_wrap .save_list {gap: 0;}
-#pop_wrap .pop_box .result_wrap .save_box {font-family: 'IsYun', sans-serif; padding: 10px;}
+#pop_wrap .pop_box .result_wrap .save_box {font-family: 'IsYun', sans-serif; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer;}
 #pop_wrap .pop_box .result_wrap .save_box .top {width: 100%; display: flex; align-items: center; gap: 10px; }
 #pop_wrap .pop_box .result_wrap .save_box .top h3 {font-size: clamp(16px, 1.59vw, 24px); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; word-break: normal; }
-#pop_wrap .pop_box .result_wrap .save_box .top .list_count {font-size: clamp(14px, 1.19vw, 18px);}
+#pop_wrap .pop_box .result_wrap .save_box .top .list_count {font-size: clamp(14px, 1.19vw, 24px);}
 #pop_wrap .pop_box .result_wrap .save_box .list_date {font-size: clamp(11px, 1.19vw, 18px); color: #999;}
- 
+#pop_wrap .pop_box .result_wrap .save_box .del {width: 20px; height: 20px; font-size: 11px; text-align: center;} 
+
+/*리스트 상세*/
+.detail_wrap {width: 100%; height: 100%; display: flex; flex-direction: column; gap: 20px; font-family: 'IsYun', sans-serif;}
+.detail_wrap .detail_header {width: 100%; display: flex; align-items: center; gap: 10px; background-color: rgba(186, 191, 255, 0.5); padding: 0 10px;}
+.detail_wrap .detail_header button {font-family: 'IsYun', sans-serif;}
+.detail_wrap .detail_header h3 {font-size: clamp(20px, 2vw, 32px);}
+.detail_wrap .detail_header span {font-size: clamp(16px, 1.59vw, 24px);}
+.detail_wrap .detail_header .date {font-size: clamp(11px, 1.19vw, 18px);}
+.detail_wrap .detail_header .back {width: 20px; height: 20px; overflow: hidden; background: url(../../public/images/back.png) no-repeat center center / cover;}
+.detail_wrap .detail_header .apply {margin-left: auto;}
+
+
+
+
+
 #pop_wrap .pop_box .close {position: absolute; top: -10px; right: 0px; width: 20px; height: 20px; overflow: hidden;}
 #pop_wrap .pop_box .close img {width: 100%; height: 100%; object-fit: contain; display: block;}
 

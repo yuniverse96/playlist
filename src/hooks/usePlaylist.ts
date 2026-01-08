@@ -26,7 +26,7 @@ export const usePlaylist = () => {
     }
   }, []);
   
-    //저장 기능: 제목 입력받아 전체 목록에 추가
+    //리스트 저장: 제목 입력받아 전체 목록에 추가
     const handleSaveList = () => {
         if (playlist.length === 0) return;
         const title = prompt("플레이리스트 제목을 정해주세요! 😊");
@@ -41,7 +41,7 @@ export const usePlaylist = () => {
         const newList = { 
             id: Date.now(), 
             title, 
-            date: currentDate, // ✅ 날짜 필드 추가
+            date: currentDate,
             items: [...playlist] 
         };
         const updatedTotal = [...allSavedLists, newList];
@@ -54,13 +54,28 @@ export const usePlaylist = () => {
         showToast(`'${title}' 저장 완료!`);
     };
 
+    //리스트 삭제
+    const deleteSavedList = (id: number) => {
+        //유저에게 진짜 삭제할지 물어보기
+        if (!confirm("정말 이 리스트를 삭제하시겠습니까?")) return;
+    
+        //해당 id만 제외하고 필터링
+        const updatedTotal = allSavedLists.filter(list => list.id !== id);
+    
+        //상태 업데이트 및 로컬스토리지 저장
+        setAllSavedLists(updatedTotal);
+        localStorage.setItem('saved-playlists', JSON.stringify(updatedTotal));
+        
+        showToast("리스트가 삭제되었습니다.");
+    };
+
     //특정 리스트 불러오기
     const loadSpecificList = (items: PlaylistItemType[]) => {
         setPlaylist(items);            //새로운 리스트로 교체
         setLastSavedList(items);       //저장 시점 동기화
         setCurrentIndex(0);            //인덱스를 첫 번째 곡으로 초기화
         showToast("리스트를 불러왔습니다! 🎵");
-      };
+    };
   
   //변경 여부 확인 (곡 구성이 같은지 비교)
   const isChanged = JSON.stringify(playlist) !== JSON.stringify(lastSavedList);
@@ -134,6 +149,7 @@ export const usePlaylist = () => {
     isChanged,  
     allSavedLists,
     handleSaveList,
+    deleteSavedList,
     loadSpecificList,
     showToast,
     setPlaylist,

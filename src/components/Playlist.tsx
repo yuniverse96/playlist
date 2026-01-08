@@ -7,10 +7,11 @@ type Props = {
   onAdd?: () => void;
   onDelete?: () => void;
   onPlay?: () => void;
+  isActive?: boolean;
 }
 
 
-function PlaylistItem({ title, artist, albumImg, variant, onAdd, onDelete, onPlay }: Props) {
+function PlaylistItem({ title, artist, albumImg, isActive, variant, onAdd, onDelete, onPlay }: Props) {
   // 아이템 클릭 시 작동 (플레이리스트 => 재생, 검색 모드 => x)
   const handleItemClick = () => {
     if (variant === 'playlist') {
@@ -19,7 +20,7 @@ function PlaylistItem({ title, artist, albumImg, variant, onAdd, onDelete, onPla
   };
 
   return (
-    <li className={`list_box ${variant}`} onClick={handleItemClick}>
+    <li className={`list_box ${variant} ${isActive ? 'now' : ''}`} onClick={handleItemClick}>
       <div className="album_img">
         <img src={albumImg} alt={title} />
       </div>
