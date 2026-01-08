@@ -14,6 +14,8 @@ function Home() {
     playlist,
     currentIndex,
     isPlaying,
+    toastMessage,
+    showToast,
     setCurrentIndex,
     setIsPlaying,
     handleAddMusic,
@@ -24,19 +26,6 @@ function Home() {
 
   const playerRef = useRef<any>(null);
 
-  // 재생/정지 감속 및 유튜브 제어 로직
-  // useEffect(() => {
-  //   if (!playerRef.current) return;
-
-  //   if (isPlaying && playlist[currentIndex]) {
-  //     const timer = setTimeout(() => {
-  //       if (isPlaying) playerRef.current.playVideo();
-  //     }, 900);
-  //     return () => clearTimeout(timer);
-  //   } else {
-  //     playerRef.current.pauseVideo();
-  //   }
-  // }, [isPlaying, currentIndex, playlist]);
 
 useEffect(() => {
   //플레이어 인스턴스가 없으면 아무것도 하지 않음
@@ -97,12 +86,21 @@ useEffect(() => {
         <SearchList
           onClose={() => setIsSearchOpen(false)}
           onSelect={handleAddMusic}
+          onError={showToast}
         />
+      )}
+      {toastMessage && (
+        <div id="toast_pop">
+          <div className="toast_message">
+            {toastMessage}
+          </div>
+        </div>
       )}
       {/* playlist에 곡이 있고, 한 번이라도 재생을 눌렀을 때만 플레이어 생성 */}
       {playlist.length > 0 && playlist[currentIndex] && (
         <div style={{ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', border: '0' }}>
           <YouTube
+            key={playlist[currentIndex].id}
             videoId={playlist[currentIndex].videoId}
             opts={{
               playerVars: {

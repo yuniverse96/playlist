@@ -18,9 +18,10 @@ type YoutubeItem = {
 type Props = {
   onClose: () => void;
   onSelect: (item: PlaylistItemType) => void;
+  onError: (msg: string) => void;
 };
 
-function SearchList({ onClose, onSelect }: Props) {
+function SearchList({ onClose, onSelect, onError }: Props) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<YoutubeItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -42,9 +43,9 @@ function SearchList({ onClose, onSelect }: Props) {
         console.error('YouTube API error:', text);
   
         if (text.includes('quota')) {
-          alert('오늘 할당량을 모두 사용했습니다. 내일 다시 시도해주세요.');
+          onError('오늘 할당량을 모두 사용했습니다. 내일 다시 시도해주세요.');
         } else {
-          alert('검색 중 오류가 발생했습니다.');
+          onError('검색 중 오류가 발생했습니다.');
         }
   
         setResults([]);
@@ -55,7 +56,7 @@ function SearchList({ onClose, onSelect }: Props) {
       setResults(items);
     } catch (err) {
       console.error('Fetch failed', err);
-      alert('검색 중 오류가 발생했습니다.');
+      onError('검색 중 오류가 발생했습니다.');
       setResults([]);
     } finally {
       setLoading(false);

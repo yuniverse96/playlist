@@ -78,3 +78,6 @@
 
 #pop_wrap .pop_box .card_wrap .loading_text { text-align: center; font-size: 1.2em; color: #202020;}
 #pop_wrap .pop_box .card_wrap .loading_text .loading_char {display: inline-block;}
+
+
+#toast_pop {position: fixed; z-index: 999; background-color: #202020; color: #fff; top: 50%; left: 50%; transform: translate(-50%,-50%); padding: 10px 20px;}
